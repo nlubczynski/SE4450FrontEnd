@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\models\building.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\foundation.css" />
@@ -206,8 +207,10 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\views\contactCreate.js" />
+    <Content Include="Scripts\views\buildingDetails.js" />
     <Content Include="Scripts\views\contactDetails.js" />
     <Content Include="Templates\contactCreate.htm" />
+    <Content Include="Templates\buildingDetail.htm" />
     <Content Include="Templates\contactDetail.htm" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
