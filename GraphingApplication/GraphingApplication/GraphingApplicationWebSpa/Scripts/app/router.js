@@ -24,13 +24,14 @@ $(function () {
     appFsMvc.buildings = new appFsMvc.BuildingCollection();
     appFsMvc.sensors = new appFsMvc.SensorCollection();
 
+    $.getJSON(appFsMvc.sensors.url, function (data) {
+        appFsMvc.sensors.reset(data);
+    });
+
     $.getJSON(appFsMvc.buildings.url, function (data) {
         appFsMvc.buildings.reset(data);
         appFsMvc.App = new AppRouter();
         Backbone.history.start();
     });
-
-    $.getJSON(appFsMvc.sensors.url, function (data) {
-        appFsMvc.sensors.reset(data);
-    });
+    
 });
