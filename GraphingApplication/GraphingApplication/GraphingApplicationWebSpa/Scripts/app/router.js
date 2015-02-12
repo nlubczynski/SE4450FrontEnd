@@ -2,35 +2,35 @@ $(function () {
     var AppRouter = Backbone.Router.extend({
 
         routes: {
-            "": "list",
-            "create": "create"
+            "": "listBuildings",
+            "buildings": "listBuildings",
+            "sensors": "listSensors"
         },
 
         initialize: function () {
-            this.contactDetailsView = new appFsMvc.ContactDetailsView( { el: $("#content"), model: window.appFsMvc.contacts } );
-            this.createContactView = new appFsMvc.ContactCreateView({ el: $("#content"), model: window.appFsMvc.contacts });
             this.buildingDetailsView = new appFsMvc.BuildingDetailsView({ el: $("#content"), model: window.appFsMvc.buildings });
+            this.sensorsDetailsView = new appFsMvc.SensorsDetailsView({ el: $("#content"), model: window.appFsMvc.sensors });
         },
 
-        list: function () {
-            //this.contactDetailsView.render();
+        listBuildings: function () {
             this.buildingDetailsView.render();
         },
 
-        create: function () {
-            this.createContactView.render();
+        listSensors: function () {
+            this.sensorsDetailsView.render();
         }
     });
 
-    appFsMvc.contacts = new appFsMvc.ContactCollection();
-    $.getJSON( appFsMvc.contacts.url, function ( data ) {
-        appFsMvc.contacts.reset( data );
+    appFsMvc.buildings = new appFsMvc.BuildingCollection();
+    appFsMvc.sensors = new appFsMvc.SensorCollection();
+
+    $.getJSON(appFsMvc.buildings.url, function (data) {
+        appFsMvc.buildings.reset(data);
         appFsMvc.App = new AppRouter();
         Backbone.history.start();
     });
 
-    appFsMvc.buildings = new appFsMvc.BuildingCollection();
-    $.getJSON(appFsMvc.buildings.url, function (data) {
-        appFsMvc.buildings.reset(data);
+    $.getJSON(appFsMvc.sensors.url, function (data) {
+        appFsMvc.sensors.reset(data);
     });
 });

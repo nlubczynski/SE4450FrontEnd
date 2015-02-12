@@ -4,10 +4,10 @@ open System.Web.Http
 open FsWeb.Models
 open FsWeb.Repositories
  
-type BuildingsController(repository : BuildingsRepository) =
+type SensorsController(repository : SensorsRepository) =
     inherit ApiController()
  
-    new() = new BuildingsController(new BuildingsRepository())
+    new() = new SensorsController(new SensorsRepository())
  
     member x.Get() = 
         repository.GetAll()

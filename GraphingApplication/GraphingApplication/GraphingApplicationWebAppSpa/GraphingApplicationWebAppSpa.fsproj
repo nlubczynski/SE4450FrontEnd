@@ -90,13 +90,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Contact.fs" />
     <Compile Include="Models\Building.fs" />
-    <Compile Include="Repositories\ContactsRepositories.fs" />
+    <Compile Include="Models\Sensor.fs" />
+    <Compile Include="Models\Unit.fs" />
+    <Compile Include="Utilities\UtilityFunctions.fs" />
     <Compile Include="Repositories\BuildingsRepository.fs" />
+	<Compile Include="Repositories\UnitRespository.fs" />
+    <Compile Include="Repositories\SensorRepository.fs" />
     <Compile Include="Controllers\HomeController.fs" />
-    <Compile Include="Controllers\ContactsController.fs" />
     <Compile Include="Controllers\BuildingsController.fs" />
+    <Compile Include="Controllers\SensorsController.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />
     <Compile Include="Global.fs" />
