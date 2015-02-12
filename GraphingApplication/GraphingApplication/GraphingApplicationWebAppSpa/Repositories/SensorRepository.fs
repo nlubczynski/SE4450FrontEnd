@@ -29,7 +29,7 @@ type SensorsRepository() =
         use context = new SensorsContext()
         context.sensors 
             |> Seq.toList
-            |> List.map(fun sensor -> FsWeb.Utilities.UtilityFunctions.RawToModel(sensor, buildings, units))
+            |> List.map(fun sensor -> FsWeb.Utilities.UtilityFunctions.RawSensorToModel(sensor, buildings, units))
  
     member x.AddNew(building) =
  
