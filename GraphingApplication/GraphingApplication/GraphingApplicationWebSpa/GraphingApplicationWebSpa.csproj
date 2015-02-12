@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\models\building.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\foundation.css" />
@@ -197,7 +198,7 @@
     <Content Include="Scripts\knockout-2.0.0.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
-    <Content Include="Scripts\models\contact.js" />
+    <Content Include="Scripts\models\sensor.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\sammy\plugins\sammy.cache.js" />
     <Content Include="Scripts\sammy\sammy.js" />
@@ -205,10 +206,11 @@
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
-    <Content Include="Scripts\views\contactCreate.js" />
-    <Content Include="Scripts\views\contactDetails.js" />
+    <Content Include="Scripts\views\sensorDetails.js" />
+    <Content Include="Scripts\views\buildingDetails.js" />
     <Content Include="Templates\contactCreate.htm" />
-    <Content Include="Templates\contactDetail.htm" />
+    <Content Include="Templates\buildingDetail.htm" />
+    <Content Include="Templates\sensorDetail.htm" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
