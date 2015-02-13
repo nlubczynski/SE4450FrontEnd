@@ -34,7 +34,7 @@ $(function () {
                                             chart.addSeries({
                                                 name: "Sensor " + sensorReading.sensorId,
                                                 id: sensorReading.sensorId
-                                            });
+                                            }, false);
                                         }
 
                                         // Convert the time to unix time, for highcharts
@@ -45,14 +45,14 @@ $(function () {
                                         // or if the data point is a newer than what we've drawn
                                         if (firstTime || timestamp >= currentTime)
                                             chart.get(sensorReading.sensorId).addPoint(
-                                                [timestamp, parseFloat(sensorReading.value)]);
+                                                [timestamp, parseFloat(sensorReading.value)], false);
                                     }
 
                                     chart.redraw();
                                     firstTime = false;
                                     currentTime = date.getTime();
                                 });
-                            }, 1000); // loop every second
+                            }, 10000); // loop every second
                         }
                     }
                 },
