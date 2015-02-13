@@ -41,13 +41,13 @@ int main(void)
 			if (!driver)
 				driver = get_driver_instance();
 
-			con = driver->connect("tcp://127.0.0.1:3306", "root", "ERTWwesternmagnethorse");
+			con = driver->connect("tcp://138.91.114.58:3307", "mysqluser", "Powersmiths1");
 			/* Connect to the MySQL test database */
 			con->setSchema("powersmiths");
 
 			stmt = con->createStatement();
-			int ran1 = -50 + rand() % 100;
-			int ran2 = -50 + rand() % 100;
+			int ran1 = -500 + rand() % 1000;
+			int ran2 = -500 + rand() % 1000;
 
 			ran1string = to_string(ran1);
 			ran2string = to_string(ran2);
