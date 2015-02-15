@@ -8,10 +8,9 @@ $(function () {
         },
 
         render: function () {
-            var chart = new Highcharts.Chart({
+                this.$el.highcharts('StockChart', {
                 chart: {
                     renderTo: 'content',
-                    defaultSeriesType: 'spline',
                     events: {
                         load: function () {
 
@@ -45,14 +44,14 @@ $(function () {
                                         // or if the data point is a newer than what we've drawn
                                         if (firstTime || timestamp >= currentTime)
                                             chart.get(sensorReading.sensorId).addPoint(
-                                                [timestamp, parseFloat(sensorReading.value)], false);
+                                                [timestamp, parseFloat(sensorReading.value)]);
                                     }
 
                                     chart.redraw();
                                     firstTime = false;
                                     currentTime = date.getTime();
                                 });
-                            }, 10000); // loop every second
+                            }, 1000); // loop every second
                         }
                     }
                 },
@@ -60,10 +59,45 @@ $(function () {
                     text: 'Usage',
                     x: -20 //center
                 },
-              /*subtitle: {
-                    text: 'Source: WorldClimate.com',
-                    x: -20
-                },*/
+                rangeSelector: {
+
+                    buttons: [{
+                        type: 'minute',
+                        count: 1,
+                        text: '1m'
+                    },
+                        {
+                        type: 'minute',
+                        count: 5,
+                        text: '5m'
+                    },
+                        {
+                        type: 'day',
+                        count: 3,
+                        text: '3d'
+                    }, {
+                        type: 'week',
+                        count: 1,
+                        text: '1w'
+                    }, {
+                        type: 'month',
+                        count: 1,
+                        text: '1m'
+                    }, {
+                        type: 'month',
+                        count: 6,
+                        text: '6m'
+                    }, {
+                        type: 'year',
+                        count: 1,
+                        text: '1y'
+                    }, {
+                        type: 'all',
+                        text: 'All'
+                    }],
+                    selected: 0,
+                    allButtonsEnabled: true
+                },
                 xAxis: {
                     type: 'datetime',
                     tickPixelInterval: 150,
@@ -77,9 +111,9 @@ $(function () {
                         margin: 80
                     }
                 },
-              /*tooltip: {
-                    valueSuffix: 'C'
-                },*/
+                /*tooltip: {
+                      valueSuffix: 'C'
+                  },*/
                 legend: {
                     layout: 'vertical',
                     align: 'right',

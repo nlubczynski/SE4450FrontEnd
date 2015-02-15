@@ -23,6 +23,7 @@ type BundleConfig() =
                                      "~/Scripts/underscore.js",   
                                      "~/Scripts/backbone.js",
                                      "~/Scripts/highcharts-all.js",
+                                     "~/Scripts/highstock.js",
                                      "~/Scripts/toastr.js"))
 
         bundles.Add(ScriptBundle("~/bundles/localApp").Include(
