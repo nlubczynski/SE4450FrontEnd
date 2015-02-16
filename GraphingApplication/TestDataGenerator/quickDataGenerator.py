@@ -1,15 +1,19 @@
+from __future__ import division
 import MySQLdb
 import time
 
-while True:
-        db = MySQLdb.connect(host="localhost",
+numberOfRows = int(input("Enter number of rows to add:"))
+
+db = MySQLdb.connect(host="localhost",
                      user="mysqluser",
                      passwd="Powersmiths1",
                      db="powersmiths",
                      port=3307)
 
-        cur = db.cursor()
+cur = db.cursor()
 
+
+for x in range(0, numberOfRows):
         from random import randint
 
         random1 = randint(-1000, 1000)
@@ -21,9 +25,12 @@ while True:
         command += str(random2)
         command += "');"
 
-        print command
         cur.execute(command)
         db.commit()
 
-        time.sleep(5)
+	if (x / numberOfRows) * 100  % 10 == 0:
+		print "{}% ...".format( x * 100 / numberOfRows)
+
+print "Done"
+
 
