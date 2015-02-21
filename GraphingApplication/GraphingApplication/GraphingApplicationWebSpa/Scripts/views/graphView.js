@@ -30,9 +30,6 @@ $(function () {
                                         locked = true;
 
                                 if (!locked) {
-                                    //redraw from last time
-                                    chart.redraw();
-
                                     // make sure we have the right sensors
                                     $.getJSON(appFsMvc.sensors.url, function (data) {
                                         appFsMvc.sensors.reset(data);
@@ -60,6 +57,7 @@ $(function () {
                                                                     series.addPoint(data[i], false, true);
                                                                 }
 
+                                                                chart.redraw();
                                                                 currentTime = data[data.length - 1][0];
                                                             }
 
