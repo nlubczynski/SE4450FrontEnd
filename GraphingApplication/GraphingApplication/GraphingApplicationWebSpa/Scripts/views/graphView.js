@@ -119,10 +119,10 @@ $(function () {
                 rangeSelector: {
 
                     buttons: [{
-                        type: 'minute',
-                        count: 1,
-                        text: '1m'
-                    },
+                            type: 'minute',
+                            count: 1,
+                            text: '1m'
+                        },
                         {
                             type: 'minute',
                             count: 5,
@@ -152,7 +152,7 @@ $(function () {
                             type: 'all',
                             text: 'All'
                         }],
-                    selected: 0,
+                    selected: 7,
                     allButtonsEnabled: true
                 }
             });
