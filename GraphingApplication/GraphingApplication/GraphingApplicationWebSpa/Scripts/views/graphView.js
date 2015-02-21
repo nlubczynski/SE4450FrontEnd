@@ -34,8 +34,10 @@ $(function () {
                                     $.getJSON(appFsMvc.sensors.url, function (data) {
                                         appFsMvc.sensors.reset(data);
                                         for (var i = 0; i < appFsMvc.sensors.length; ++i) {
-                                            // Lock
-                                            seriesSemaphore[i] = 2;
+
+                                            // initialize semaphore
+                                            if (seriesSemaphore[i] === undefined)
+                                                seriesSemaphore[i] = 0;
 
                                             // get the sensor var
                                             var sensor = appFsMvc.sensors.models[i];
@@ -87,6 +89,9 @@ $(function () {
                                                     }(sensorReadingCollection.id))
                                                 );
                                             }
+
+                                            // Lock
+                                            seriesSemaphore[i] = 2;
                                         }
                                     });
                                 }
