@@ -22,7 +22,6 @@ type BundleConfig() =
         bundles.Add(ScriptBundle("~/bundles/extLibs").Include(
                                      "~/Scripts/underscore.js",   
                                      "~/Scripts/backbone.js",
-                                     "~/Scripts/highcharts-all.js",
                                      "~/Scripts/highstock.js",
                                      "~/Scripts/toastr.js"))
 
@@ -64,6 +63,8 @@ type Global() =
         routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" )
         routes.MapHttpRoute( "DefaultApi", "api/{controller}/{id}", 
             { id = RouteParameter.Optional } ) |> ignore
+        routes.MapHttpRoute( "SpecificApi", "api/{controller}/{action}/{id}",
+            { id = RouteParameter.Optional} ) |> ignore
         routes.MapRoute("Default", "{controller}/{action}/{id}", 
             { controller = "Home"; action = "Index"; id = UrlParameter.Optional } ) |> ignore
 

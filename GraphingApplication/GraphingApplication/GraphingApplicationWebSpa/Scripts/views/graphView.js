@@ -10,15 +10,41 @@ $(function () {
         render: function () {
                 this.$el.highcharts('StockChart', {
                 chart: {
-                    renderTo: 'content',
                     events: {
                         load: function () {
 
-                            var firstTime = true;
+                            // helper vars
                             var date = new Date();
                             var currentTime = date.getTime();
+                            var chart = this;
 
-                            setInterval(function () {
+                            // turbo
+                            chart.options.plotOptions.spline.turboThreshold = 500000;
+
+                            /* first load */
+                            // load and add all the series
+                            $.getJSON(appFsMvc.sensors.url, function (data) {
+                                appFsMvc.sensors.reset(data);
+
+                                for(var i = 0; i < appFsMvc.sensors.length; ++i)
+                                {
+                                    var sensor = appFsMvc.sensors.models[i];
+                                    chart.addSeries({
+                                        name: "Sensor " + sensor.id,
+                                        id: sensor.id
+                                    }, false);
+
+                                    // async json to get the data for each series
+                                    var sensorReadingCollection = new appFsMvc.SensorReadingsMinCollection([], { id: sensor.id });
+                                    $.getJSON(sensorReadingCollection.url, function (data) {
+                                        chart.get(sensor.id).setData(data);
+                                    });
+                                }
+                            });
+                            
+
+                            // update function
+                            /*setInterval(function () {
                                 $.getJSON(appFsMvc.sensorReadings.url, function (data) {
                                     // get the data
                                     appFsMvc.sensorReadings.reset(data);
@@ -47,11 +73,11 @@ $(function () {
                                                 [timestamp, parseFloat(sensorReading.value)]);
                                     }
 
-                                    chart.redraw();
+                                    this.redraw();
                                     firstTime = false;
                                     currentTime = date.getTime();
                                 });
-                            }, 1000); // loop every second
+                            }, 100000000); // loop every second*/
                         }
                     }
                 },

@@ -17,7 +17,7 @@ type SensorReadingsRepository() =
     
     member x.GetAll() =
 
-        //Get all the buildings
+        //Get all the sensors|
         let sensorRepository = new SensorsRepository()
         let sensors = sensorRepository.GetAll()
 
@@ -26,3 +26,10 @@ type SensorReadingsRepository() =
         context.sensorReadings 
             |> Seq.toList
             |> List.map(fun sensorReading -> FsWeb.Utilities.UtilityFunctions.RawSensorReadingToModel(sensorReading, sensors))
+
+    member x.GetOne(id : string) =
+        use context = new SensorReadingsContext()
+        context.sensorReadings 
+            |> Seq.toList
+            |> List.filter(fun sensorReadingRaw -> sensorReadingRaw.SensorId = id)
+            |> List.map(fun sensorReadingRaw -> [sensorReadingRaw.Time, sensorReadingRaw.Value])

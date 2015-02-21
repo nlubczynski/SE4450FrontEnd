@@ -11,3 +11,6 @@ type SensorReadingsController(repository : SensorReadingsRepository) =
  
     member x.Get() = 
         repository.GetAll()
+
+    member x.GetOne(id : string) = 
+        repository.GetOne(id)

@@ -3,6 +3,9 @@
 open System
 open System.ComponentModel.DataAnnotations
 open System.ComponentModel.DataAnnotations.Schema
+open System.Runtime.Serialization
+open System.Data
+
 
 [<Table("SensorReading")>]
 type SensorReadingRaw() = 
@@ -26,3 +29,8 @@ type SensorReading() =
     [<Required>] member x.Time with get() = time and set v = time <- v
     [<Required>] member x.Value with get() = value and set v = value <- v
     [<Required>] member x.Sensor with get() = sensor and set v = sensor <- v
+
+type SensorReadingMinimal(value : string, time: string) =
+    let mutable y = value
+    let mutable x = (DateTime.Parse(time) - new DateTime(1970, 1, 1)).TotalSeconds
+
