@@ -22,7 +22,7 @@ type BundleConfig() =
         bundles.Add(ScriptBundle("~/bundles/extLibs").Include(
                                      "~/Scripts/underscore.js",   
                                      "~/Scripts/backbone.js",
-                                     "~/Scripts/highcharts-all.js",
+                                     "~/Scripts/highstock.js",
                                      "~/Scripts/toastr.js"))
 
         bundles.Add(ScriptBundle("~/bundles/localApp").Include(
@@ -51,7 +51,7 @@ type BundleConfig() =
                                     "~/Content/themes/base/jquery.ui.theme.css"))
 
 type Route = { controller : string; action : string; id : UrlParameter }
-type ApiRoute = { id : RouteParameter }
+type ApiRoute = { id : RouteParameter; timestamp : RouteParameter }
 
 type Global() =
     inherit System.Web.HttpApplication() 
@@ -61,8 +61,10 @@ type Global() =
 
     static member RegisterRoutes(routes:RouteCollection) =
         routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" )
-        routes.MapHttpRoute( "DefaultApi", "api/{controller}/{id}", 
-            { id = RouteParameter.Optional } ) |> ignore
+        routes.MapHttpRoute( "DefaultApi", "api/{controller}/{id}/{timestamp}", 
+            { id = RouteParameter.Optional; timestamp = RouteParameter.Optional } ) |> ignore
+        routes.MapHttpRoute( "SpecificApi", "api/{controller}/{action}/{id}/{timestamp}",
+            { id = RouteParameter.Optional; timestamp = RouteParameter.Optional} ) |> ignore
         routes.MapRoute("Default", "{controller}/{action}/{id}", 
             { controller = "Home"; action = "Index"; id = UrlParameter.Optional } ) |> ignore
 

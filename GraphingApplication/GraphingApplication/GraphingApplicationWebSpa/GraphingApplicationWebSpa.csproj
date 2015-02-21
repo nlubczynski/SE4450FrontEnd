@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\highstock.js" />
     <Content Include="Scripts\models\sensorReading.js" />
     <Content Include="Scripts\highcharts-all.js" />
     <Content Include="Scripts\models\building.js" />
