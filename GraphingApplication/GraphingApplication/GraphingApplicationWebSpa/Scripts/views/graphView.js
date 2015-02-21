@@ -51,6 +51,9 @@ $(function () {
                                                 $.getJSON(sensorReadingCollection.urlGetAfter(currentTime),
                                                     (function (series, id) {
                                                         return function (data) {
+                                                            //unlock - single thread, it's okay
+                                                            seriesSemaphore[id - 1] = 1;
+
                                                             // check if draw (only the last one)
                                                             var redraw = true;
                                                             for (var i = 0; i < seriesSemaphore.length; ++i)
@@ -70,10 +73,6 @@ $(function () {
                                                                 //update time
                                                                 currentTime = data[data.length - 1][0];
                                                             }
-
-                                                            //unlock
-                                                            seriesSemaphore[id - 1] = 1;
-                                                            
                                                         };
                                                     }(series, sensor.id))
                                                )
