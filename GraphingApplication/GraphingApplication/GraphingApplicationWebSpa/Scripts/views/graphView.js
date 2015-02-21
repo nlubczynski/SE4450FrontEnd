@@ -64,7 +64,7 @@ $(function () {
                                                     }(series, sensor.id))
                                                )
                                             }
-                                            else if ( seriesSemaphore[i] != 0 ) // it doesn't exist, get all the data and add it
+                                            else if ( seriesSemaphore[i] == 0 ) // it doesn't exist, get all the data and add it
                                             {
                                                 $.getJSON(sensorReadingCollection.urlGetAll,
                                                     (function (id) {
