@@ -17,6 +17,7 @@ $(function () {
                             var currentTime;
                             var chart = this;
                             var seriesSemaphore = [];
+                            var timeout = 1000;
 
                             // update function
                             (function () {
@@ -58,6 +59,9 @@ $(function () {
 
                                                             //unlock
                                                             seriesSemaphore[id - 1] = false;
+
+                                                            //restore the timeout
+                                                            timeout = 1000;
                                                         };
                                                     }(series, sensor.id))
                                                )
@@ -81,6 +85,9 @@ $(function () {
 
                                                             //unlock
                                                             seriesSemaphore[id - 1] = false;
+
+                                                            //extend the timeout for these first loads
+                                                            timeout = 10000;
                                                         };
                                                     }(sensorReadingCollection.id))
                                                 );
@@ -89,7 +96,7 @@ $(function () {
                                     });
                                 }
 
-                                setTimeout(arguments.callee, 1000); // loop every second
+                                setTimeout(arguments.callee, timeout); // loop every second
                             })();
                         }
                     }
