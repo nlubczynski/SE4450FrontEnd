@@ -16,6 +16,7 @@ $(function () {
                             // helper vars
                             var currentTime;
                             var chart = this;
+                            // 0 = DNE, 1 = unlocked, 2 = locked
                             var seriesSemaphore = [];
                             var timeout = 1000;
 
@@ -25,7 +26,7 @@ $(function () {
                                 // check if locked
                                 var locked = false;
                                 for (var i = 0; i < seriesSemaphore.length; ++i)
-                                    if (seriesSemaphore[i])
+                                    if (seriesSemaphore[i] == 2)
                                         locked = true;
 
                                 if (!locked) {
@@ -34,7 +35,7 @@ $(function () {
                                         appFsMvc.sensors.reset(data);
                                         for (var i = 0; i < appFsMvc.sensors.length; ++i) {
                                             // Lock
-                                            seriesSemaphore[i] = true;
+                                            seriesSemaphore[i] = 2;
 
                                             // get the sensor var
                                             var sensor = appFsMvc.sensors.models[i];
@@ -58,15 +59,12 @@ $(function () {
                                                             }
 
                                                             //unlock
-                                                            seriesSemaphore[id - 1] = false;
-
-                                                            //restore the timeout
-                                                            timeout = 1000;
+                                                            seriesSemaphore[id - 1] = 1;
                                                         };
                                                     }(series, sensor.id))
                                                )
                                             }
-                                            else // it doesn't exist, get all the data and add it
+                                            else if ( seriesSemaphore[i] != 0 ) // it doesn't exist, get all the data and add it
                                             {
                                                 $.getJSON(sensorReadingCollection.urlGetAll,
                                                     (function (id) {
@@ -84,10 +82,7 @@ $(function () {
                                                             });
 
                                                             //unlock
-                                                            seriesSemaphore[id - 1] = false;
-
-                                                            //extend the timeout for these first loads
-                                                            timeout = 10000;
+                                                            seriesSemaphore[id - 1] = 1;
                                                         };
                                                     }(sensorReadingCollection.id))
                                                 );
