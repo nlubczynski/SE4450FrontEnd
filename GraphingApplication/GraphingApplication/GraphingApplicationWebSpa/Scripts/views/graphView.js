@@ -51,24 +51,29 @@ $(function () {
                                                 $.getJSON(sensorReadingCollection.urlGetAfter(currentTime),
                                                     (function (series, id) {
                                                         return function (data) {
-                                                            // add the point(s), and update time
-                                                            if (data.length > 0) {
-                                                                for (var i = 0; i < data.length; ++i) {
-                                                                    series.addPoint(data[i], false, true);
-                                                                }
-                                                                currentTime = data[data.length - 1][0];
-                                                            }
-
-                                                            //unlock
-                                                            seriesSemaphore[id - 1] = 1;
-
                                                             // check if draw (only the last one)
                                                             var redraw = true;
                                                             for (var i = 0; i < seriesSemaphore.length; ++i)
                                                                 if (seriesSemaphore[i] != 1)
                                                                     redraw = false;
 
-                                                            if (redraw) chart.redraw();
+                                                            // add the point(s), and update time
+                                                            if (data.length > 0) {
+                                                                // all points, except the last one
+                                                                for (var i = 0; i < data.length - 1; ++i) {
+                                                                    series.addPoint(data[i], false, true);
+                                                                }
+
+                                                                // redraw with animation, maybe
+                                                                series.addPoint(data[data.length - 1], redraw, true);
+
+                                                                //update time
+                                                                currentTime = data[data.length - 1][0];
+                                                            }
+
+                                                            //unlock
+                                                            seriesSemaphore[id - 1] = 1;
+                                                            
                                                         };
                                                     }(series, sensor.id))
                                                )
