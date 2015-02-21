@@ -29,7 +29,7 @@ module UtilityFunctions =
         model.Value <- raw.Value
 
         // Find and set the sensor model
-        let sensor = List.find(fun (sen : SensorModel) -> sen.Id = raw.SensorId) sensors
+        let sensor = List.find(fun (sen : SensorModel) -> System.Int32.Parse(sen.Id) = raw.SensorId) sensors
         model.Sensor <- sensor
 
         //return 

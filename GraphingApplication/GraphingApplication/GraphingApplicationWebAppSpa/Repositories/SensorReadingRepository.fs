@@ -28,8 +28,34 @@ type SensorReadingsRepository() =
             |> List.map(fun sensorReading -> FsWeb.Utilities.UtilityFunctions.RawSensorReadingToModel(sensorReading, sensors))
 
     member x.GetOne(id : string) =
+        // Get all the sensors
         use context = new SensorReadingsContext()
+        
+        // Filter for right ID, create minimal value, create and return array
         context.sensorReadings 
             |> Seq.toList
-            |> List.filter(fun sensorReadingRaw -> sensorReadingRaw.SensorId = id)
-            |> List.map(fun sensorReadingRaw -> [sensorReadingRaw.Time, sensorReadingRaw.Value])
+            |> List.filter(fun sensorReadingRaw -> sensorReadingRaw.SensorId = System.Int32.Parse(id))
+            |> List.map (fun sensorReadingRaw -> new SensorReadingMinimal(sensorReadingRaw.Value, sensorReadingRaw.Time))
+            |> List.map (fun (sensorReadingMin : SensorReadingMinimal) -> [|sensorReadingMin.X; sensorReadingMin.Y|])
+            |> List.toArray
+
+    member x.GetOneAfterTime(id : string, timestamp : string) =
+        // Get sensors after the timestamp
+        use context = new SensorReadingsContext()
+
+        let timeStampMySQL = new System.DateTime(1970,1,1,0,0,0,0,System.DateTimeKind.Utc)
+        let timeStampMySQL = timeStampMySQL.AddMilliseconds(System.Double.Parse(timestamp))
+
+        let result = query {
+            for s in context.SensorReadings do
+            where (s.Time >= timeStampMySQL)
+            select s
+        }
+
+        // Filter for right ID, create minimal value, create and return array
+        result
+            |> Seq.toList
+            |> List.filter(fun sensorReadingRaw -> sensorReadingRaw.SensorId = System.Int32.Parse(id))
+            |> List.map (fun sensorReadingRaw -> new SensorReadingMinimal(sensorReadingRaw.Value, sensorReadingRaw.Time))
+            |> List.map (fun (sensorReadingMin : SensorReadingMinimal) -> [|sensorReadingMin.X; sensorReadingMin.Y|])
+            |> List.toArray
