@@ -18,7 +18,7 @@ $(function () {
                             var chart = this;
                             // 0 = DNE, 1 = unlocked, 2 = locked
                             var seriesSemaphore = [];
-                            var timeout = 1000;
+                            var timeout = 10000;
 
                             // update function
                             (function () {
