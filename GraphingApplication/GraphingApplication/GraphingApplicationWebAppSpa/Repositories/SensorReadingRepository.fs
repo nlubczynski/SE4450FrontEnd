@@ -35,6 +35,7 @@ type SensorReadingsRepository() =
         context.sensorReadings 
             |> Seq.toList
             |> List.filter(fun sensorReadingRaw -> sensorReadingRaw.SensorId = System.Int32.Parse(id))
+            |> List.sortBy (fun sensorReadingRaw -> sensorReadingRaw.Time)
             |> List.map (fun sensorReadingRaw -> new SensorReadingMinimal(sensorReadingRaw.Value, sensorReadingRaw.Time))
             |> List.map (fun (sensorReadingMin : SensorReadingMinimal) -> [|sensorReadingMin.X; sensorReadingMin.Y|])
             |> List.toArray
@@ -56,6 +57,7 @@ type SensorReadingsRepository() =
         result
             |> Seq.toList
             |> List.filter(fun sensorReadingRaw -> sensorReadingRaw.SensorId = System.Int32.Parse(id))
+            |> List.sortBy (fun sensorReadingRaw -> sensorReadingRaw.Time)
             |> List.map (fun sensorReadingRaw -> new SensorReadingMinimal(sensorReadingRaw.Value, sensorReadingRaw.Time))
             |> List.map (fun (sensorReadingMin : SensorReadingMinimal) -> [|sensorReadingMin.X; sensorReadingMin.Y|])
             |> List.toArray

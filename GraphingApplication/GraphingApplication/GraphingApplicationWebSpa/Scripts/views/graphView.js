@@ -38,6 +38,8 @@ $(function () {
                                             // initialize semaphore
                                             if (seriesSemaphore[i] === undefined)
                                                 seriesSemaphore[i] = 0;
+                                            else
+                                                seriesSemaphore[i] = 2;
 
                                             // get the sensor var
                                             var sensor = appFsMvc.sensors.models[i];
