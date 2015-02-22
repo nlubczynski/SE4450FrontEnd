@@ -63,21 +63,26 @@ $(function () {
 
                                                                 //update time
                                                                 currentTime = data[data.length - 1][0];
-
-                                                                //unlock - single thread, it's okay
-                                                                seriesSemaphore[id - 1] = 1;
-
-                                                                // check if draw (only the last one)
-                                                                var redraw = true;
-                                                                for (var i = 0; i < seriesSemaphore.length; ++i)
-                                                                    if (seriesSemaphore[i] != 1)
-                                                                        redraw = false;
-                                                                if (redraw)
-                                                                    chart.redraw();
                                                             }
                                                         };
                                                     }(series, sensor.id))
-                                               )
+                                               ).complete(
+                                                (function (id) {
+                                                    return function () {
+
+                                                        //unlock
+                                                        seriesSemaphore[id - 1] = 1;
+
+                                                        // check if draw (only the last one)
+                                                        var redraw = true;
+                                                        for (var i = 0; i < seriesSemaphore.length; ++i)
+                                                            if (seriesSemaphore[i] != 1)
+                                                                redraw = false;
+                                                        // draw
+                                                        if (redraw)
+                                                            chart.redraw();
+                                                    }
+                                                })(sensor.id));
                                             }
                                             else if ( seriesSemaphore[i] == 0 ) // it doesn't exist, get all the data and add it
                                             {
@@ -95,12 +100,12 @@ $(function () {
                                                                 id: id,
                                                                 data: data
                                                             });
-
-                                                            //unlock
-                                                            seriesSemaphore[id - 1] = 1;
                                                         };
                                                     }(sensorReadingCollection.id))
-                                                );
+                                                ).complete(
+                                                (function (id) {
+                                                    return function () { seriesSemaphore[id - 1] = 1; }
+                                                })(sensor.id));
                                             }
 
                                             // Lock
