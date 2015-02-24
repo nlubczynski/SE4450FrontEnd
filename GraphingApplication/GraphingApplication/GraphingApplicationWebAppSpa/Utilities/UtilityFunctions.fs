@@ -1,6 +1,7 @@
 ﻿namespace FsWeb.Utilities
  
 open FsWeb.Models
+open Newtonsoft.Json
 
 module UtilityFunctions =
 
@@ -34,3 +35,30 @@ module UtilityFunctions =
 
         //return 
         model
+
+    // serialize a JSON array of SensorReadings into a List of JSONSensorReading
+    let SerializeJSONReading(json: string): List<JSONSensorReading> = 
+        let json = JsonConvert.SerializeObject(json)
+        JsonConvert.DeserializeObject<JSONSensorReading list>(json)
+
+    // transforms a JSONSensorReading to an array representing the coordinates on a Highcharts graph
+    let JSONSensorReadingToArray(reading: JSONSensorReading): float[] = 
+        let r_min = SensorReadingMinimal(float(reading.value), reading.timestamp)
+        [|r_min.X; r_min.Y|]
+
+    // serializes a JSONSensor reading to a map id -> highcharts_coordinates
+    let Serialize2DArray(readings: List<JSONSensorReading>): seq<int * float[][]> = 
+        Seq.groupBy( fun r -> r.id) readings
+        |> Seq.map( fun (id, rdings) -> 
+            ( id, Seq.toArray(Seq.map( fun r -> JSONSensorReadingToArray(r) ) rdings) )
+        )
+
+    // gets the highcharts coordinates for a single sensor based on id (use this after Serialize2DArray)
+    let getById(id: int, readings: seq<int * float[][]>): float[][] = 
+        let (_, readings_for_id) = Seq.find( fun  (i, rdings) -> i.Equals id) readings
+        readings_for_id
+        
+        
+        
+
+    

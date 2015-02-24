@@ -35,3 +35,10 @@ type SensorReadingMinimal(value : float, time : System.DateTime) =
     let mutable x = (time - new DateTime(1970, 1, 1)).TotalMilliseconds
     member this.X with get() = x
     member this.Y with get() = y
+
+// for serialization from JSON to F# types representing a SensorReading
+type JSONSensorReading = {
+     id: int
+     timestamp: System.DateTime
+     value: int
+     }

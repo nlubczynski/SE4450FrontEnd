@@ -4,10 +4,12 @@ $(function () {
         // has model: all sensors from constructor
 
         initialize: function (options) {
+            this.isLambda = false;
             this.data = options.data;
         },
 
         render: function () {
+
             this.$el.highcharts('StockChart', {
                 chart: {
                     events: {
@@ -16,6 +18,7 @@ $(function () {
                             // helper vars
                             var currentTime = 0;
                             var chart = this;
+                            var isLambda = $('input[name=lambda_checkbox]').is(":checked");
                             // 0 = DNE, 1 = unlocked, 2 = locked
                             var seriesSemaphore = [];
                             var timeout = 1000;
@@ -50,7 +53,7 @@ $(function () {
                                             // see if this series already exists
                                             if (chart.get(sensor.id) != null) {
                                                 var series = chart.get(sensor.id);
-                                                $.getJSON(sensorReadingCollection.urlGetAfter(currentTime),
+                                                $.getJSON(sensorReadingCollection.urlGetAfter(currentTime, isLambda),
                                                     (function (series, id) {
                                                         return function (data) {
 
@@ -81,7 +84,7 @@ $(function () {
                                             }
                                             else if ( seriesSemaphore[i] == 0 ) // it doesn't exist, get all the data and add it
                                             {
-                                                $.getJSON(sensorReadingCollection.urlGetAll,
+                                                $.getJSON(sensorReadingCollection.urlGetAll(isLambda),
                                                     (function (id) {
                                                         return function (data) {
                                                             // update time

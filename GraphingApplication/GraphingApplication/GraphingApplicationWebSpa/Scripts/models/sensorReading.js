@@ -14,9 +14,12 @@ $(function () {
 
         initialize: function (models, options) {
             this.id          = options.id
-            this.urlGetAll   = "/api/sensorReadings/?action=GetOne&timestamp=0&id=" + options.id
-            this.urlGetAfter = function (timestamp) {
-                return "/api/sensorReadings/?action=GetAfter&id=" + this.id + "&timestamp=" + timestamp;
+            this.urlGetAll = function (isLambda) {
+                return "/api/sensorReadings/?action=GetOne&timestamp=0&id=" + options.id + "&lambda=" + isLambda
+            }
+            this.urlGetAfter = function (timestamp, isLambda) {
+                return "/api/sensorReadings/?action=GetAfter&id=" + this.id + "&timestamp=" + timestamp +
+                    "&lambda=" + isLambda;
             }
         },
 
