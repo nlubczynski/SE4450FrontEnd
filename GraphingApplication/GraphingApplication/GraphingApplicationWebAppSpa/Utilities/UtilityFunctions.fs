@@ -1,6 +1,7 @@
 ﻿namespace FsWeb.Utilities
  
 open FsWeb.Models
+open Newtonsoft.Json
 
 module UtilityFunctions =
 
@@ -34,3 +35,8 @@ module UtilityFunctions =
 
         //return 
         model
+
+    // serialize a JSON array of SensorReadings into a List of JSONSensorReading
+    let SerializeJSONReading(json: string): List<JSONSensorReading> = 
+        let json = JsonConvert.SerializeObject(json)
+        JsonConvert.DeserializeObject<JSONSensorReading list>(json)
