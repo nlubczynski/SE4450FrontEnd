@@ -159,7 +159,7 @@ $(function () {
                             type: 'all',
                             text: 'All'
                         }],
-                    selected: 7,
+                    selected: 0,
                     allButtonsEnabled: true
                 }
             });
