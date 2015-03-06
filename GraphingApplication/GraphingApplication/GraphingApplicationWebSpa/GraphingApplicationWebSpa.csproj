@@ -257,12 +257,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GraphingApplicationWebAppSpa\GraphingApplicationWebAppSpa.fsproj">
-      <Project>{A999575F-C66E-42BF-A70F-655D4C3F0069}</Project>
-      <Name>GraphingApplicationWebAppSpa</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
