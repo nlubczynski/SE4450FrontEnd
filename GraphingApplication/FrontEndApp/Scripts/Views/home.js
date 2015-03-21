@@ -35,10 +35,33 @@
         }
     }
 
-    $.getJSON('http://www.highcharts.com/samples/data/from-sql.php?callback=?', function (data) {
+    // MySql
+    $.getJSON('api/sensor/', function (sensorData) {
 
         // Add a null value for the end date
-        data = [].concat(data, [[Date.UTC(2011, 9, 14, 19, 59), null, null, null, null]]);
+        //data = [].concat(data, [[Date.UTC(2011, 9, 14, 19, 59), null, null, null, null]]);
+
+        sensorData = $.parseJSON(sensorData);
+        var dataSeries = [];
+
+        $.ajaxSetup({
+            async: false
+        });
+
+        // load the data
+        for (var i = 0; i < sensorData.length; ++i) {
+            $.getJSON("api/SensorData/get/" + sensorData[i].ID,
+                (function (index) {
+                    return function (data) {
+                        dataSeries[index] = $.parseJSON(data);
+                    };
+                }(i))
+            );
+        }
+
+        $.ajaxSetup({
+            async: true
+        });
 
         // create the chart
         $('#MySQL').highcharts('StockChart', {
@@ -50,7 +73,7 @@
             navigator: {
                 adaptToUpdatedData: false,
                 series: {
-                    data: data
+                    data: dataSeries
                 }
             },
 
@@ -88,18 +111,14 @@
             },
 
             xAxis: {
-                events: {
+                /*events: {
                     afterSetExtremes: afterSetExtremes
-                },
+                },*/
                 minRange: 3600 * 1000 // one hour
             },
 
-            yAxis: {
-                floor: 0
-            },
-
             series: [{
-                data: data,
+                data: dataSeries,
                 dataGrouping: {
                     enabled: false
                 }
@@ -107,6 +126,7 @@
         });
     });
 
+    // Lambda
     $.getJSON('http://www.highcharts.com/samples/data/from-sql.php?callback=?', function (data) {
 
         // Add a null value for the end date

@@ -13,7 +13,6 @@ using System.Web.Routing;
 
 namespace FrontEndApp
 {
-
     public class MvcApplication : System.Web.HttpApplication
     {
         // Main repository
@@ -26,6 +25,7 @@ namespace FrontEndApp
             get
             {
                 sensorMutex.WaitOne();
+                // copy to new list
                 List<Sensor> returnVal = _sensors.ConvertAll(sensor => new Sensor(sensor));
                 sensorMutex.ReleaseMutex();
                 return returnVal;
@@ -39,6 +39,7 @@ namespace FrontEndApp
             get
             {
                 sensorReadingMutex.WaitOne();
+                // copy to new list
                 List<SensorReading> returnVal = _sensorReadings.ConvertAll(sensorReading => new SensorReading(sensorReading));
                 sensorReadingMutex.ReleaseMutex();
                 return returnVal;
@@ -52,6 +53,7 @@ namespace FrontEndApp
             get
             {
                 buildingMutex.WaitOne();
+                // copy to new list
                 List<Building> returnVal = _buidlings.ConvertAll(building => new Building(building));
                 buildingMutex.ReleaseMutex();
                 return returnVal;
@@ -65,6 +67,7 @@ namespace FrontEndApp
             get
             {
                 unitMutex.WaitOne();
+                // copy to new list
                 List<Unit> returnVal = _units.Select(unit => unit).ToList();
                 unitMutex.ReleaseMutex();
                 return returnVal;
@@ -75,7 +78,7 @@ namespace FrontEndApp
         // Instance
         public static MvcApplication Instance { get; private set; }
 
-        // Mutext for retrieving data
+        // Mutexes for retrieving data
         private static Mutex buildingMutex = new Mutex();
         private static Mutex sensorMutex = new Mutex();
         private static Mutex sensorReadingMutex = new Mutex();
@@ -94,10 +97,12 @@ namespace FrontEndApp
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            // Initiliaze
+            // Initiliaze data
             data = new Powersmiths();
             Sensors = new List<Sensor>();
             SensorReadings = new List<SensorReading>();
+            Units = new List<Unit>();
+            Buildings = new List<Building>();
             update();
 
             // Update loop
@@ -120,12 +125,11 @@ namespace FrontEndApp
             List<Building> swapBuildings            = new List<Building>();
             List<Unit> swapUnits                    = new List<Unit>();
 
-
             // Sensors
             swapSensors = data.Sensors.ToList();
 
             // Sensor Readings
-            swapSensorReadings = data.SensorReadings.ToList();
+            swapSensorReadings = data.SensorReadings.OrderBy(sensorReading => sensorReading.Time).ToList();
 
             // Buildings
             swapBuildings = data.Buildings.ToList();
@@ -153,6 +157,5 @@ namespace FrontEndApp
             Units = swapUnits;
             unitMutex.ReleaseMutex();
         }
-
     }
 }
